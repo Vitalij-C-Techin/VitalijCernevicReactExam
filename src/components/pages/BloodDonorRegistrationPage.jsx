@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import Navigation from './parts/Navigation';
 import Footer from './parts/Footer';
 
@@ -31,11 +33,7 @@ const BloodDonorRegistrationPage = () => {
   };
 
   const handleAge = (e) => {
-    //setFormAge(parseInt(e.target.value));
-
-    console.log('age', parseInt(e.target.value));
-
-    setFormAge(e.target.value);
+    setFormAge(parseInt(e.target.value));
   };
 
   const handleGender = (e) => {
@@ -47,32 +45,71 @@ const BloodDonorRegistrationPage = () => {
   };
 
   const handleSubmit = (e) => {
-    console.log('Submit', error);
     //First name
 
-    if (formFirstname.lenght == 0) {
+    if (formFirstname.length < 3) {
       setError('First name is too short');
       return;
     }
 
-    if (formFirstname.lenght > 50) {
+    if (formFirstname.length > 50) {
       setError('First name is too long');
       return;
     }
 
     //Last name
 
-    if (formLastname.lenght == 0) {
+    if (formLastname.length == 0) {
       setError('Last name is too short');
       return;
     }
 
-    if (formLastname.lenght > 50) {
+    if (formLastname.length > 50) {
       setError('Last name is too long');
       return;
     }
 
     //Age
+
+    if (!formAge) {
+      setError('Fill your age');
+      return;
+    }
+
+    if (formAge < 18) {
+      setError('You are too young');
+      return;
+    }
+
+    if (formAge > 100) {
+      setError('You are too old');
+      return;
+    }
+
+    //Gender
+
+    if (formGender.length < 1) {
+      setError('Select gender');
+      return;
+    }
+
+    //BloodGroup
+
+    if (formBloodGroup.length < 2) {
+      setError('Fill your blood group');
+      return;
+    }
+
+    console.log(formBloodGroup);
+
+    if (formBloodGroup.length > 10) {
+      setError('Incorect blood group');
+      return;
+    }
+
+    setError(false);
+
+    createDonor();
   };
 
   /* --- */
@@ -81,10 +118,24 @@ const BloodDonorRegistrationPage = () => {
 
   const createDonor = (donor) => {
     axios
-      .post('https://dummyjson.com/users/add', {})
+      .post('https://dummyjson.com/users/add', {
+        firstName: formFirstname,
+        lastName: formLastname,
+        age: formAge,
+        gender: formGender,
+        bloodGroup: formBloodGroup
+      })
       .then((response) => {
-        //console.log('Donors', response);
-        //
+        console.log('On Donor Create: ', response);
+
+        setError(false);
+        setIsSuccess(true);
+
+        setFormFirstname('');
+        setFormLastname('');
+        setFormAge('');
+        setFormGender('');
+        setFormBloodGroup('');
       })
       .catch((error) => {
         console.log('Error', error);
@@ -108,9 +159,7 @@ const BloodDonorRegistrationPage = () => {
           torquent per conubia nostra, per inceptos himenaeos. Aenean nec est erat. Mauris felis
           purus, accumsan ac volutpat vel, pharetra ac ligula.
         </p>
-        firstName, lastName, age, gender (geriausia dropdown arba radio button, jei nepavyksta –
-        input), bloodGroup. (Nepamirškite, pateikiant naujai užregistruoto donoro formą išsiųsti
-        post requestą.)
+
         <div className="registration-form">
           <form onSubmit={handleForm}>
             <h3>Register</h3>
@@ -137,14 +186,7 @@ const BloodDonorRegistrationPage = () => {
 
             <div className="mb-3">
               <label className="form-label">Age *</label>
-              <input
-                type="number"
-                className="form-control"
-                min="10"
-                max="100"
-                value={formAge}
-                onChange={handleAge}
-              />
+              <input type="number" className="form-control" value={formAge} onChange={handleAge} />
             </div>
 
             <div className="mb-3">
@@ -169,8 +211,16 @@ const BloodDonorRegistrationPage = () => {
 
             {error && (
               <>
-                <div class="alert alert-danger" role="alert">
+                <div className="alert alert-danger" role="alert">
                   {error}
+                </div>
+              </>
+            )}
+
+            {isSuccess && (
+              <>
+                <div className="alert alert-success" role="alert">
+                  Form sent successfuly! :)
                 </div>
               </>
             )}
