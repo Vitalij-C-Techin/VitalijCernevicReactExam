@@ -126,7 +126,7 @@ const BloodDonorRegistrationPage = () => {
         bloodGroup: formBloodGroup
       })
       .then((response) => {
-        console.log('On Donor Create: ', response);
+        //console.log('On Donor Create: ', response);
 
         setError(false);
         setIsSuccess(true);

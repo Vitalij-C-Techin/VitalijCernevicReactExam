@@ -24,7 +24,7 @@ const BloodDonorPage = () => {
     axios
       .get(`${options.requestUrl}/${id}`)
       .then((response) => {
-        console.log('Donors', response);
+        //console.log('Donors', response);
 
         setDonor(response.data);
         setDonorLoaded(true);
