@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 
 import Navigation from './parts/Navigation';
@@ -16,18 +18,21 @@ const BloodDonorListPage = () => {
   const [donorList, setDonorList] = useState([]);
   const [donorLoaded, setDonorLoaded] = useState(false);
 
+  // On Remove
   const removeDonor = (donor) => {
     axios
-      .get(options.requestUrl, {})
+      .delete(`${options.requestUrl}/${donor.id}`, {})
       .then((response) => {
-        console.log('Donors', response);
+        //console.log('Donors', response);
 
-        setDonorList(response.data.users);
-        setDonorLoaded(true);
+        const result = donorList.filter((donorFilter) => {
+          return donorFilter.id !== donor.id;
+        });
+
+        setDonorList(result);
       })
       .catch((error) => {
         console.log('Error', error);
-        setDonorLoaded(true);
       });
   };
 
@@ -71,7 +76,7 @@ const BloodDonorListPage = () => {
 
         {!!donorLoaded && !!donorList.length && (
           <>
-            <BloodDonorList donors={donorList} />
+            <BloodDonorList donors={donorList} removeDonor={removeDonor} />
           </>
         )}
       </BlockContent>
@@ -81,34 +86,57 @@ const BloodDonorListPage = () => {
   );
 };
 
-const BloodDonorList = ({ donors }) => {
-  console.log('Donors', donors);
-
+const BloodDonorList = ({ donors, removeDonor }) => {
   return (
     <>
       <ul className="list-group">
         {!!donors.length &&
           donors.map((donor) => {
-            console.log('Loop', donor);
-            return <BloodDonorListSingle key={crypto.randomUUID()} donor={donor} />;
+            return (
+              <BloodDonorListSingle
+                key={crypto.randomUUID()}
+                donor={donor}
+                removeDonor={removeDonor}
+              />
+            );
           })}
       </ul>
     </>
   );
 };
 
-const BloodDonorListSingle = ({ donor }) => {
-  console.log('single', donor);
+const BloodDonorListSingle = ({ donor, removeDonor }) => {
+  const navigate = useNavigate();
+
+  const handleEdit = (donor) => {
+    navigate(`/donor/${donor.id}`);
+  };
+
+  const handleRemove = (donor) => {
+    if (confirm('Are you sure you want to remove this donor?')) {
+      removeDonor(donor);
+    }
+  };
 
   return (
     <>
       <li className="list-group-item">
-        <h3>
-          {donor.firstName} {donor.lastName}
-        </h3>
-        <span>
-          Gender: {donor.gender}, Birth date: {donor.birthDate}
-        </span>
+        <div>
+          <h4 className="fw-bold">
+            {donor.firstName} {donor.lastName}
+          </h4>
+          <span>
+            Gender: {donor.gender}, Birth date: {donor.birthDate}
+          </span>
+        </div>
+        <div className="cv-alignt-text-right">
+          <button type="button" className="btn btn-success" onClick={() => handleEdit(donor)}>
+            View
+          </button>
+          <button type="button" className="btn btn-danger" onClick={() => handleRemove(donor)}>
+            Remove
+          </button>
+        </div>
       </li>
     </>
   );
