@@ -70,16 +70,34 @@ const Profile = ({ donor }) => {
 
   return (
     <>
+      <br />
+      <br />
+      <h3>
+        {donor.firstName} {donor.lastName}
+      </h3>
+
       <div className="profile">
         <div className="profile__image">
           <img src={donor.image} alt="donor" />
         </div>
         <div className="profile__info">
-          <h3>
-            {donor.firstName} {donor.lastName}
-          </h3>
           <table className="table">
             <tbody>
+              <tr>
+                <th scope="row">Firstname</th>
+                <td>{donor.firstName}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Lastname</th>
+                <td>{donor.lastName}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">MaidenName</th>
+                <td>{donor.maidenName}</td>
+              </tr>
+
               <tr>
                 <th scope="row">Gender</th>
                 <td>{donor.gender}</td>
@@ -93,13 +111,26 @@ const Profile = ({ donor }) => {
               </tr>
 
               <tr>
-                <th scope="row">BloodGroup</th>
+                <th scope="row">Blood Group</th>
                 <td>{donor.bloodGroup}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Height</th>
+                <td>{donor.height} Cm</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Weight</th>
+                <td>{donor.weight} Kg</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <br />
+      <br />
 
       <h3>Contacts</h3>
       <table className="table">

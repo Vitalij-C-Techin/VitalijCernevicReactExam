@@ -90,16 +90,15 @@
     display: flex;
     gap: 30px;
     width: 100%;
-    padding: 50px 0;
   }
   .profile > .profile__image {
     flex: 1;
-    display: flex;
-    justify-content: end;
     background-color: #ebebeb;
+    text-align: right;
   }
   .profile > .profile__image > img {
     max-width: 100%;
+    height: auto;
     max-height: 500px;
   }
   .profile > .profile__info {
@@ -107,6 +106,19 @@
   }
 }
 /* END Profile */
+/* Registration */
+@media all {
+  .registration-form {
+    display: flex;
+    padding: 50px 0;
+  }
+  .registration-form > form {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+/* END Registration */
 /* Layout */
 @media all {
   .cv-block-content {
