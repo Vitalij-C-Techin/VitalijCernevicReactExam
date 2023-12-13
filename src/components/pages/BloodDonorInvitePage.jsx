@@ -6,7 +6,7 @@ import Footer from './parts/Footer';
 import { BlockContent, BlockColumns } from './parts/Layout';
 
 //Tester crash here
-//import Image from '../../../public/invite-image.png';
+import Image from '../../../public/invite-image.png';
 
 const BloodDonorInvitePage = () => {
   return (
@@ -18,7 +18,7 @@ const BloodDonorInvitePage = () => {
 
         <BlockColumns className="cv-padding-tb-30">
           <div className="cv-vertical-align-center cv-padding-tb-30 cv-horizontal-align-right">
-            <img src="/public/invite-image.png'" alt="invite page" className="cv-fit-size" />
+            <img src={Image} alt="invite page" className="cv-fit-size" />
           </div>
           <div className="cv-vertical-align-center cv-padding-tb-30">
             <div>
