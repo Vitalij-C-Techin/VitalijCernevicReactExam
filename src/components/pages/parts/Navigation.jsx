@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 
-import Logo from '../../../../public/logo.png';
+//import Logo from '../../../../public/logo.png';
 
 const options = {
   links: [
@@ -26,7 +26,7 @@ const Navigation = () => {
         <div>
           <div className="navigation__logo-section">
             <Link to="/">
-              <img src={Logo} alt="logo" />
+              <img src="/public/logo.png" alt="logo" />
             </Link>
           </div>
 
