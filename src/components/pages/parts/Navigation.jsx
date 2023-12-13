@@ -34,10 +34,8 @@ const Navigation = () => {
             <ul>
               {options.links.map((link) => {
                 return (
-                  <li>
-                    <NavLink key={crypto.randomUUID()} to={link.url}>
-                      {link.text}
-                    </NavLink>
+                  <li key={crypto.randomUUID()}>
+                    <NavLink to={link.url}>{link.text}</NavLink>
                   </li>
                 );
               })}
